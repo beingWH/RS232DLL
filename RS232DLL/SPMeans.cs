@@ -9,6 +9,7 @@ using System.Web;
 namespace RS232DLL.Infra
 {
     public delegate void SpReaderDelegate(string str);
+    public delegate void SpBytesReaderDelegate(byte[] bytes);
 
     sealed class SPMeans:IRS232
     {
@@ -16,6 +17,7 @@ namespace RS232DLL.Infra
         private bool m_IsTryToClosePort = false;
         private bool m_IsReceiving = false;
         public event SpReaderDelegate SpReaderEvent;
+        public event SpBytesReaderDelegate SpBytesReaderEvent;
         public SPMeans(SerialPort sp)
         {
             this.sp = sp;
@@ -108,6 +110,31 @@ namespace RS232DLL.Infra
                     byte[] buf = new byte[n];
                     sp.Read(buf, 0, n);
                     SpReaderEvent(BytesTohexString(buf));
+                    sp.DiscardInBuffer();
+                }
+            }
+            finally
+            {
+                m_IsReceiving = false;
+            }
+
+        }
+        public void Sp_BytesReceived(object sender, SerialDataReceivedEventArgs e)
+        {
+            if (m_IsTryToClosePort)
+            {
+                return;
+            }
+            m_IsReceiving = true;
+            try
+            {
+                if (sp.IsOpen)
+                {
+                    Thread.Sleep(1000);
+                    int n = sp.BytesToRead;
+                    byte[] buf = new byte[n];
+                    sp.Read(buf, 0, n);
+                    SpBytesReaderEvent(buf);
                     sp.DiscardInBuffer();
                 }
             }
@@ -274,5 +301,8 @@ namespace RS232DLL.Infra
             }
          
         }
+
+
+
     }
 }
