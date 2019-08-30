@@ -33,7 +33,7 @@ namespace Test
         }
         public void Initialize()
         {
-            sp.PortName = "COM1";
+            sp.PortName = "COM2";
             spm = RS232Factory.CreateClient(sp);
             spm.SetDefaultPortConfig();
             sp.DataReceived += spm.Sp_StrReceived;

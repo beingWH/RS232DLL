@@ -207,7 +207,7 @@ namespace RS232DLL.Infra
         /// 关闭IO
         /// </summary>
         /// <param name="sp"></param>
-        private void Close()
+        public void Close()
         {
             try
             {
@@ -224,7 +224,11 @@ namespace RS232DLL.Infra
             {
                 throw;
             }
-
+        }
+        public void Dispose()
+        {
+            this.Close();
+            sp.Dispose();
         }
         private byte[] Hex2Bytes(string hex)
         {

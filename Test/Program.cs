@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 
 namespace Test
 {
@@ -14,7 +15,15 @@ namespace Test
             spi.Initialize();
             for(int i=0; i < 100; i++)
             {
-                spi.Write(i.ToString()+"\r\n");
+                spi.Write(i.ToString()+":wanghuan\r\n");
+                Thread.Sleep(100);
+            }
+            spi.spm.Close();
+            spi.Initialize();
+            for (int i = 0; i < 100; i++)
+            {
+                spi.Write(i.ToString() + ":wanghuan\r\n");
+                Thread.Sleep(100);
             }
             Console.ReadLine();
         }

@@ -18,5 +18,7 @@ namespace RS232DLL
         void Sp_StrReceived(object sender, SerialDataReceivedEventArgs e);
         void Sp_HexReceived(object sender, SerialDataReceivedEventArgs e);
         void Sp_BytesReceived(object sender, SerialDataReceivedEventArgs e);
+        void Close();
+        void Dispose();
     }
 }
