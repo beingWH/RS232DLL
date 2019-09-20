@@ -12,7 +12,7 @@ namespace Test
     {
         internal static SPInstance instance;
         internal static readonly object locker = new object();
-        internal SerialPort sp=new SerialPort();
+        internal WHSerialPort sp=new WHSerialPort();
         internal IRS232 spm;
         private SPInstance()
         {
@@ -33,16 +33,19 @@ namespace Test
         }
         public void Initialize()
         {
-            sp.PortName = "COM2";
+            sp.AccessoryData = new { a = 1, b = 2 };
+            sp.PortName = "COM10";
             spm = RS232Factory.CreateClient(sp);
             spm.SetDefaultPortConfig();
             sp.DataReceived += spm.Sp_StrReceived;
             spm.SpReaderEvent += Spm_SpReaderEvent;
+
         }
 
-        private void Spm_SpReaderEvent(string str)
+        private void Spm_SpReaderEvent(string str,Object obj)
         {
-            Console.WriteLine(str);
+            dynamic n = obj;
+            Console.WriteLine(str+"  "+n.a.ToString());
         }
 
         public void Write(string str)

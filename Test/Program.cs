@@ -15,16 +15,10 @@ namespace Test
             spi.Initialize();
             for(int i=0; i < 100; i++)
             {
-                spi.Write(i.ToString()+":wanghuan\r\n");
+                spi.Write(i.ToString());
                 Thread.Sleep(100);
             }
             spi.spm.Close();
-            spi.Initialize();
-            for (int i = 0; i < 100; i++)
-            {
-                spi.Write(i.ToString() + ":wanghuan\r\n");
-                Thread.Sleep(100);
-            }
             Console.ReadLine();
         }
     }

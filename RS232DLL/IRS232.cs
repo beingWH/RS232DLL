@@ -11,6 +11,7 @@ namespace RS232DLL
     {
         event SpReaderDelegate SpReaderEvent;
         event SpBytesReaderDelegate SpBytesReaderEvent;
+
         string[] FindIO();
         void SetDefaultPortConfig();
         void WriteStr(string str);
