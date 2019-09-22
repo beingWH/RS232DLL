@@ -9,8 +9,11 @@ namespace RS232DLL
 {
     public interface IRS232
     {
-        event SpReaderDelegate SpReaderEvent;
-        event SpBytesReaderDelegate SpBytesReaderEvent;
+        //event SpReaderDelegate SpReaderEvent;
+        //event SpBytesReaderDelegate SpBytesReaderEvent;
+        event Action<string, object> StrReader ;
+        event Action<byte[], object> BytesReader;
+
 
         string[] FindIO();
         void SetDefaultPortConfig();

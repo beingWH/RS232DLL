@@ -42,6 +42,7 @@
     <Compile Include="IRS232.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RS232Factory.cs" />
+    <Compile Include="SPInstance.cs" />
     <Compile Include="SPMeans.cs" />
     <Compile Include="WHSerialPort.cs">
       <SubType>Component</SubType>

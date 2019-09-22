@@ -8,16 +8,18 @@ using System.Web;
 
 namespace RS232DLL.Infra
 {
-    public delegate void SpReaderDelegate(string str,Object accessoryData);
-    public delegate void SpBytesReaderDelegate(byte[] bytes,Object accessoryData);
+   // public delegate void SpReaderDelegate(string str,object accessoryData);
+    //public delegate void SpBytesReaderDelegate(byte[] bytes,object accessoryData);
 
     sealed class SPMeans:IRS232
     {
         private WHSerialPort sp;
         private bool m_IsTryToClosePort = false;
         private bool m_IsReceiving = false;
-        public event SpReaderDelegate SpReaderEvent;
-        public event SpBytesReaderDelegate SpBytesReaderEvent;
+        //public event SpReaderDelegate SpReaderEvent;
+        //public event SpBytesReaderDelegate SpBytesReaderEvent;
+        public event Action<string, object> StrReader ;
+        public event Action<byte[], object> BytesReader;
         public SPMeans(WHSerialPort sp)
         {
             this.sp = sp;
@@ -81,7 +83,8 @@ namespace RS232DLL.Infra
                 if (sp.IsOpen)
                 {
                     Thread.Sleep(500);
-                    SpReaderEvent(sp.ReadExisting(),((WHSerialPort)sender).AccessoryData);
+                    //SpReaderEvent(sp.ReadExisting(),((WHSerialPort)sender).AccessoryData);
+                    StrReader(sp.ReadExisting(), ((WHSerialPort)sender).AccessoryData);
                     sp.DiscardInBuffer();
                     
                 }
@@ -110,7 +113,8 @@ namespace RS232DLL.Infra
                     int n = sp.BytesToRead;
                     byte[] buf = new byte[n];
                     sp.Read(buf, 0, n);
-                    SpReaderEvent(BytesTohexString(buf), ((WHSerialPort)sender).AccessoryData);
+                    //SpReaderEvent(BytesTohexString(buf), ((WHSerialPort)sender).AccessoryData);
+                    StrReader(BytesTohexString(buf), ((WHSerialPort)sender).AccessoryData);
                     sp.DiscardInBuffer();
                 }
             }
@@ -134,7 +138,8 @@ namespace RS232DLL.Infra
                     int n = sp.BytesToRead;
                     byte[] buf = new byte[n];
                     sp.Read(buf, 0, n);
-                    SpBytesReaderEvent(buf,e.EventType);
+                    //SpBytesReaderEvent(buf,e.EventType);
+                    BytesReader(buf, ((WHSerialPort)sender).AccessoryData);
                     sp.DiscardInBuffer();
                 }
             }

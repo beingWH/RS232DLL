@@ -24,6 +24,6 @@ namespace RS232DLL
 
         public WHSerialPort(string portName, int baudRate, Parity parity, int dataBits, StopBits stopBits):base(portName, baudRate, parity, dataBits, stopBits) { }
 
-        public Object AccessoryData { get; set; }
+        public object AccessoryData { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using RS232DLL.Infra;
+﻿using RS232DLL;
+using RS232DLL.Infra;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,15 +12,20 @@ namespace Test
     {
         static void Main(string[] args)
         {
-            SPInstance spi = SPInstance.GetInstance();
-            spi.Initialize();
-            for(int i=0; i < 100; i++)
+             SPInstance<WHSerialPort> spi =new SPInstance<WHSerialPort>();
+            
+            spi.StrReaderInitialize("COM10", (str,accessoryData) =>
             {
-                spi.Write(i.ToString());
+                Console.WriteLine(str);
+            });
+            for(int i = 0; i < 10; i++)
+            {
+                spi.WriteStr("FF\r\n");
                 Thread.Sleep(100);
             }
-            spi.spm.Close();
             Console.ReadLine();
+
         }
+       
     }
 }
