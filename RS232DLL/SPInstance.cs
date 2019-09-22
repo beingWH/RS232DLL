@@ -10,7 +10,7 @@ namespace RS232DLL
     {
         internal static T instance;
         internal static readonly object locker = new object();
-        public IRS232 spm;
+        public static IRS232 spm;
 
         public SPInstance(){}
         public static T Instance
@@ -54,6 +54,24 @@ namespace RS232DLL
             spm.SetDefaultPortConfig();
             Instance.DataReceived += spm.Sp_BytesReceived;
             spm.BytesReader += reader;
+        }
+        public virtual void BytesReaderDispose(Action<byte[], object> reader)
+        {
+            Instance.DataReceived -= spm.Sp_BytesReceived;
+            spm.BytesReader -= reader;
+            Instance.Close();
+        }
+        public virtual void HexReaderDispose(Action<string, object> reader)
+        {
+            Instance.DataReceived -= spm.Sp_HexReceived;
+            spm.StrReader -= reader;
+            Instance.Close();
+        }
+        public virtual void StrReaderDispose(Action<string, object> reader)
+        {
+            Instance.DataReceived -= spm.Sp_StrReceived;
+            spm.StrReader -= reader;
+            Instance.Close();
         }
         public virtual void WriteStr(string str)
         {
