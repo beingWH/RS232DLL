@@ -28,75 +28,113 @@ namespace RS232DLL
         }
         public void StrReaderInitialize(string portNme,Action<string,object> reader)
         {
-            Instance.PortName = portNme;
-            spm = RS232Factory.CreateClient(Instance);
-            spm.SetDefaultPortConfig();
-            if (reader != null)
+            try
             {
-                Instance.DataReceived += spm.Sp_StrReceived;
-                spm.StrReader += reader;
+                Instance.PortName = portNme;
+                spm = RS232Factory.CreateClient(Instance);
+                spm.SetDefaultPortConfig();
+                if (reader != null)
+                {
+                    Instance.DataReceived += spm.Sp_StrReceived;
+                    spm.StrReader += reader;
+                }
             }
+            catch { throw; }
+
         }
         public void HexReaderInitialize(string portNme, Action<string,object> reader)
         {
-            Instance.PortName = portNme;
-            spm = RS232Factory.CreateClient(Instance);
-            spm.SetDefaultPortConfig();
-            if (reader != null)
+            try
             {
-                Instance.DataReceived += spm.Sp_HexReceived;
-                spm.StrReader += reader;
+                Instance.PortName = portNme;
+                spm = RS232Factory.CreateClient(Instance);
+                spm.SetDefaultPortConfig();
+                if (reader != null)
+                {
+                    Instance.DataReceived += spm.Sp_HexReceived;
+                    spm.StrReader += reader;
+                }
             }
+            catch { throw; }
+
         }
         public void BytesReaderInitialize(string portNme, Action<byte[],object> reader)
         {
-            Instance.PortName = portNme;
-            spm = RS232Factory.CreateClient(Instance);
-            spm.SetDefaultPortConfig();
-            if (reader != null)
+            try
             {
-                Instance.DataReceived += spm.Sp_BytesReceived;
-                spm.BytesReader += reader;
+                Instance.PortName = portNme;
+                spm = RS232Factory.CreateClient(Instance);
+                spm.SetDefaultPortConfig();
+                if (reader != null)
+                {
+                    Instance.DataReceived += spm.Sp_BytesReceived;
+                    spm.BytesReader += reader;
+                }
             }
+            catch { throw; }
+
         }
         public void BytesReaderDispose(Action<byte[], object> reader)
         {
-            if (spm != null)
+            try
             {
-                Instance.DataReceived -= spm.Sp_BytesReceived;
-                spm.BytesReader -= reader;
+                if (spm != null)
+                {
+                    Instance.DataReceived -= spm.Sp_BytesReceived;
+                    spm.BytesReader -= reader;
+                }
+                Instance.Close();
             }
-            Instance.Close();
+            catch { throw; }
+
         }
         public void HexReaderDispose(Action<string, object> reader)
         {
-            if (spm != null)
+            try
             {
-                Instance.DataReceived -= spm.Sp_HexReceived;
-                spm.StrReader -= reader;
+                if (spm != null)
+                {
+                    Instance.DataReceived -= spm.Sp_HexReceived;
+                    spm.StrReader -= reader;
+                }
+                Instance.Close();
             }
-            Instance.Close();
+            catch { throw; }
+
         }
         public void StrReaderDispose(Action<string, object> reader)
         {
-            if (spm != null)
+            try
             {
-                Instance.DataReceived -= spm.Sp_StrReceived;
-                spm.StrReader -= reader;
-            }
+                if (spm != null)
+                {
+                    Instance.DataReceived -= spm.Sp_StrReceived;
+                    spm.StrReader -= reader;
+                }
 
-            Instance.Close();
+                Instance.Close();
+            }
+            catch { throw; }
+
         }
         public void WriteStr(string str)
         {
-            if(spm!=null)
-                spm.WriteStr(str);
+            try
+            {
+                if (spm != null)
+                    spm.WriteStr(str);
+            }
+            catch { throw; }
+
         }
         public void WriteHex(string hex)
         {
-            if(spm!=null)
-                spm.WriteHex(hex);
-
+            try
+            {
+                if (spm != null)
+                    spm.WriteHex(hex);
+            }
+            catch { throw; }
         }
 
         public virtual void ReaderInitialize(PortConfig pc, Action<string, object> reader) { }
