@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Web;
 
-namespace RS232DLL.Infra
+namespace RS232DLL
 {
    // public delegate void SpReaderDelegate(string str,object accessoryData);
     //public delegate void SpBytesReaderDelegate(byte[] bytes,object accessoryData);
@@ -67,8 +67,28 @@ namespace RS232DLL.Infra
             catch
             {
                 throw;
+            }     
+        }
+        public void SetPortConfig(PortConfig pc)
+        {
+            try
+            {
+                sp.DtrEnable = pc.DrtEnable;
+                sp.RtsEnable = pc.RtsEnable;
+                sp.Handshake =pc.Handshake;
+                sp.ReceivedBytesThreshold = pc.ReceivedBytesThreshold;
+                sp.ReadBufferSize = pc.ReadBufferSize;
+                sp.ReadTimeout = pc.ReadTimeout;
+                sp.BaudRate = pc.BaudRate;
+                sp.DataBits = pc.DataBits;
+                sp.StopBits = pc.StopBits;
+                sp.Parity = pc.Parity;
+                sp.Close();
             }
-       
+            catch
+            {
+                throw;
+            }
         }
 
         public void Sp_StrReceived(object sender, SerialDataReceivedEventArgs e)

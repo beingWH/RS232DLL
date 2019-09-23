@@ -1,22 +1,17 @@
-﻿using RS232DLL.Infra;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.IO.Ports;
-using System.Linq;
-using System.Text;
 
 namespace RS232DLL
 {
     public interface IRS232
     {
-        //event SpReaderDelegate SpReaderEvent;
-        //event SpBytesReaderDelegate SpBytesReaderEvent;
+
         event Action<string, object> StrReader ;
         event Action<byte[], object> BytesReader;
 
-
         string[] FindIO();
         void SetDefaultPortConfig();
+        void SetPortConfig(PortConfig pc);
         void WriteStr(string str);
         void WriteHex(string str);
         void Sp_StrReceived(object sender, SerialDataReceivedEventArgs e);
