@@ -5,10 +5,6 @@ VisualStudioVersion = 15.0.27428.2043
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RS232DLL", "RS232DLL\RS232DLL.csproj", "{2FE124E8-CF76-490A-96C3-47AF5C8B318B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{2F1E8F33-7689-4DC6-AF08-0E69DC4BC309}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test1", "Test1\Test1.csproj", "{F35575E4-7C25-4EF3-92D4-28972A1D5525}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,14 +15,6 @@ Global
 		{2FE124E8-CF76-490A-96C3-47AF5C8B318B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2FE124E8-CF76-490A-96C3-47AF5C8B318B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2FE124E8-CF76-490A-96C3-47AF5C8B318B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2F1E8F33-7689-4DC6-AF08-0E69DC4BC309}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2F1E8F33-7689-4DC6-AF08-0E69DC4BC309}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2F1E8F33-7689-4DC6-AF08-0E69DC4BC309}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2F1E8F33-7689-4DC6-AF08-0E69DC4BC309}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F35575E4-7C25-4EF3-92D4-28972A1D5525}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F35575E4-7C25-4EF3-92D4-28972A1D5525}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F35575E4-7C25-4EF3-92D4-28972A1D5525}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F35575E4-7C25-4EF3-92D4-28972A1D5525}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

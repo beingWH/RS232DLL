@@ -28,6 +28,7 @@ namespace RS232DLL
     }
     public class PortConfig
     {
+        public string PortName { get; set; }
         public bool DrtEnable { get; set; }
         public bool RtsEnable { get; set; }
         public Handshake Handshake { get; set; }
