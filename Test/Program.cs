@@ -1,5 +1,9 @@
 ﻿using RS232DLL;
 using System;
+using System.Collections.Generic;
+using System.IO.Ports;
+using System.Linq;
+using System.Text;
 using System.Threading;
 
 namespace Test
@@ -8,25 +12,25 @@ namespace Test
     {
         static void Main(string[] args)
         {
-            SPInstance<WHSerialPort> sp1 = new SPInstance<WHSerialPort>();
-            sp1.StrReaderInitialize("COM1", (str, accessoryData) =>
+            SPInstances<SerialPort> SPIs = new SPInstances<SerialPort>()
             {
-                Console.WriteLine("[COM1 READER]" + str);
-            });
-            SPInstance<WHSerialPort> sp3 = new SPInstance<WHSerialPort>();
-            sp3.StrReaderInitialize("COM3", (str, accessoryData) =>
+                new SPInstance<SerialPort>(new SerialPort("COM1"),delegate(string str){Console.WriteLine("COM1READER:"+str); }),
+                new SPInstance<SerialPort>(new SerialPort("COM2"),delegate(string str){Console.WriteLine("COM2READER:"+str); }),
+                new SPInstance<SerialPort>(new SerialPort("COM3"),delegate(string str){Console.WriteLine("COM3READER:"+str); }),
+                new SPInstance<SerialPort>(new SerialPort("COM4"),delegate(string str){Console.WriteLine("COM4READER:"+str); }),
+            };
+            for(int i = 0; i < 10; i++)
             {
-                Console.WriteLine("[COM3 READER]" + str);
-            });
-            for (int i = 0; i < 100; i++)
-            {
-                sp1.WriteStr(DateTime.Now + ": I am COM1\r\n");
-                sp3.WriteStr(DateTime.Now + ": I am COM3\r\n");
-
-                Thread.Sleep(1000);
+                SPIs[0].Write("this is com1");
+                Thread.Sleep(500);
+                SPIs[1].Write("this is com2");
+                Thread.Sleep(500);
+                SPIs[2].Write("this is com3");
+                Thread.Sleep(500);
+                SPIs[3].Write("this is com4");
+                Thread.Sleep(500);
             }
-
+            Console.Read();
         }
-
     }
 }

@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>1.1.0</version>
+    <title>RS232Helper</title>
+    <authors>WangHuan</authors>
+    <owners>WangHuan</owners>
+	<license type="expression">MIT</license>
+    <projectUrl>https://github.com/beingWH/RS232DLL</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>RS232Helper is convenient to Use SerialPort</description>
+    <releaseNotes>Massive modification</releaseNotes>
+    <copyright>Copyright 2019</copyright>
+    <tags>RS232 SerialPort</tags>
+  </metadata>
+</package>
