@@ -13,20 +13,38 @@ namespace Test
     {
         static void Main(string[] args)
         {
-            List<SPInstanceBase> SPIs = new List<SPInstanceBase>()
-            {
-                new SPInstanceBase("COM1","1",delegate(Hex hex,object obj){Console.WriteLine((obj as string)+":"+hex.hexstring); }),
-                new SPInstanceBase("COM2","2",delegate(Hex hex,object obj){Console.WriteLine((obj as string)+":"+hex.hexstring); }),
+            //List<SPInstanceBase> SPIs = new List<SPInstanceBase>()
+            //{
+            //    new SPInstanceBase("COM1","1",delegate(Hex hex,object obj){Console.WriteLine((obj as string)+":"+hex.hexstring); }),
+            //    new SPInstanceBase("COM2","2",delegate(Hex hex,object obj){Console.WriteLine((obj as string)+":"+hex.hexstring); }),
 
-            };
-            for (int i = 0; i < 10; i++)
+            //};
+            //for (int i = 0; i < 10; i++)
+            //{
+            //    SPIs[0].WriteHex("0x01 ab A 0xA".GetHexValue());
+            //    Thread.Sleep(500);
+            //    SPIs[1].WriteHex("0xAB 0XA B 1".GetHexValue());
+            //    Thread.Sleep(500);
+            //}
+            //Console.Read();
+
+            ISerialPort COM1=RS232Helper.Create("COM1", null, (str, obj) =>
             {
-                SPIs[0].WriteHex("0x01 ab A 0xA".GetHexValue());
+                Console.Write(str as string);
+            });
+            ISerialPort COM2 = RS232Helper.Create("COM2", null, (str, obj) =>
+            {
+                Console.Write(str as string);
+            });
+            for(int i = 0; i < 10; i++)
+            {
+                COM1.WriteStr("ABC");
                 Thread.Sleep(500);
-                SPIs[1].WriteHex("0xAB 0XA B 1".GetHexValue());
+                COM2.WriteStr("EFG");
                 Thread.Sleep(500);
             }
-            Console.Read();
+            COM1.Dispose();
+            COM2.Dispose();
 
         }
     }
