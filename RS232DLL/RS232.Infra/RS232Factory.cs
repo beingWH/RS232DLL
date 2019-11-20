@@ -1,12 +1,12 @@
 ﻿using System.IO.Ports;
 
-namespace RS232DLL
+namespace RS232DLL.Infra
 {
     public static class RS232Factory
     {
-        public static IRS232 CreateClient<T>(T sp) where T:SerialPort
+        public static IRS232 CreateClient<T>(T sp) where T:SerialPort, IAccessoryData
         {
-            SPMeans<T> spm = new SPMeans<T>(sp);
+            RS232Methods<T> spm = new RS232Methods<T>(sp);
             return spm;
         }
     }

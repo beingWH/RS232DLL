@@ -1,4 +1,5 @@
 ﻿using RS232DLL;
+using RS232DLL.Infra;
 using System;
 using System.Collections.Generic;
 using System.IO.Ports;
@@ -12,25 +13,21 @@ namespace Test
     {
         static void Main(string[] args)
         {
-            SPInstances<SerialPort> SPIs = new SPInstances<SerialPort>()
+            List<SPInstanceBase> SPIs = new List<SPInstanceBase>()
             {
-                new SPInstance<SerialPort>(new SerialPort("COM1"),delegate(string str){Console.WriteLine("COM1READER:"+str); }),
-                new SPInstance<SerialPort>(new SerialPort("COM2"),delegate(string str){Console.WriteLine("COM2READER:"+str); }),
-                new SPInstance<SerialPort>(new SerialPort("COM3"),delegate(string str){Console.WriteLine("COM3READER:"+str); }),
-                new SPInstance<SerialPort>(new SerialPort("COM4"),delegate(string str){Console.WriteLine("COM4READER:"+str); }),
+                new SPInstanceBase("COM1","1",delegate(Hex hex,object obj){Console.WriteLine((obj as string)+":"+hex.hexstring); }),
+                new SPInstanceBase("COM2","2",delegate(Hex hex,object obj){Console.WriteLine((obj as string)+":"+hex.hexstring); }),
+
             };
-            for(int i = 0; i < 10; i++)
+            for (int i = 0; i < 10; i++)
             {
-                SPIs[0].Write("this is com1");
+                SPIs[0].WriteHex("0x01 ab A 0xA".GetHexValue());
                 Thread.Sleep(500);
-                SPIs[1].Write("this is com2");
-                Thread.Sleep(500);
-                SPIs[2].Write("this is com3");
-                Thread.Sleep(500);
-                SPIs[3].Write("this is com4");
+                SPIs[1].WriteHex("0xAB 0XA B 1".GetHexValue());
                 Thread.Sleep(500);
             }
             Console.Read();
+
         }
     }
 }

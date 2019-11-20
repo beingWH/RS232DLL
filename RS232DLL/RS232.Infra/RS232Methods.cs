@@ -1,40 +1,33 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO.Ports;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Web;
 
-namespace RS232DLL
+namespace RS232DLL.Infra
 {
-   // public delegate void SpReaderDelegate(string str,object accessoryData);
-    //public delegate void SpBytesReaderDelegate(byte[] bytes,object accessoryData);
-
-    sealed class SPMeans<T>:IRS232 where T:SerialPort
+    sealed class RS232Methods<T>:IRS232 
+        where T:SerialPort, IAccessoryData
     {
-        private T sp;
+        private readonly T sp;
         private bool m_IsTryToClosePort = false;
         private bool m_IsReceiving = false;
         public event Action<string, object> WHStrReader ;
+        public event Action<Hex, object> WHHexReader;
         public event Action<byte[], object> WHBytesReader;
-        public event Action<string> StrReader;
-        public event Action<byte[]> BytesReader;
-        public SPMeans(T sp)
+        public RS232Methods(T sp)
         {
             this.sp = sp;
         }
-        ~SPMeans()
+        ~RS232Methods()
         {
-            if (sp.IsOpen)
-            {
-                sp.Close();
-            }
+            this.Close();
+            sp.Dispose();
         }
-        /// <summary>
-        /// 查找IO端口
-        /// </summary>
-        /// <returns></returns>
+        public void Dispose()
+        {
+            this.Close();
+            sp.Dispose();
+            GC.SuppressFinalize(this);
+        }
         public string[] FindIO()
         {
             try
@@ -47,7 +40,6 @@ namespace RS232DLL
                 throw;
             }
         }
-
         public void SetDefaultPortConfig()
         {
             try
@@ -90,7 +82,6 @@ namespace RS232DLL
                 throw;
             }
         }
-
         public void Sp_StrReceived(object sender, SerialDataReceivedEventArgs e)
         {
             if (m_IsTryToClosePort)
@@ -103,12 +94,7 @@ namespace RS232DLL
                 if (sp.IsOpen)
                 {
                     Thread.Sleep(500);
-                    Type type = typeof(T);
-
-                    if (type.Equals(typeof(WHSerialPort)))
-                        WHStrReader(sp.ReadExisting(), ((WHSerialPort)sender).AccessoryData);
-                    else
-                        StrReader(sp.ReadExisting());
+                    WHStrReader?.Invoke(sp.ReadExisting(), sp.accessoryData);
                     sp.DiscardInBuffer();
                     
                 }
@@ -137,11 +123,7 @@ namespace RS232DLL
                     int n = sp.BytesToRead;
                     byte[] buf = new byte[n];
                     sp.Read(buf, 0, n);
-                    Type type = typeof(T);
-                    if (type.Equals(typeof(WHSerialPort)))
-                        WHStrReader(BytesTohexString(buf), ((WHSerialPort)sender).AccessoryData);
-                    else
-                        StrReader(BytesTohexString(buf));
+                    WHHexReader?.Invoke(new Hex(RS232Utils.BytesTohexString(buf)), sp.accessoryData);
                     sp.DiscardInBuffer();
                 }
             }
@@ -165,11 +147,7 @@ namespace RS232DLL
                     int n = sp.BytesToRead;
                     byte[] buf = new byte[n];
                     sp.Read(buf, 0, n);
-                    Type type = typeof(T);
-                    if (type.Equals(typeof(WHSerialPort)))
-                        WHBytesReader(buf, ((WHSerialPort)sender).AccessoryData);
-                    else
-                        BytesReader(buf);
+                    WHBytesReader?.Invoke(buf, sp.accessoryData);
                     sp.DiscardInBuffer();
                 }
             }
@@ -179,32 +157,7 @@ namespace RS232DLL
             }
 
         }
-        private string BytesTohexString(byte[] bytes)
-        {
-            if (bytes == null || bytes.Count() < 1)
-            {
-                return string.Empty;
-            }
-
-            var count = bytes.Count();
-
-            var cache = new StringBuilder();
-            for (int ii = 0; ii < count; ++ii)
-            {
-                cache.Append("0x");
-                var tempHex = Convert.ToString(bytes[ii], 16).ToUpper();
-                cache.Append(tempHex.Length == 1 ? "0" + tempHex : tempHex);
-                cache.Append(" ");
-            }
-
-            return cache.ToString().Trim();
-        }
-
-
-        /// <summary>
-        /// 写入IO
-        /// </summary>
-        public void WriteHex(string hex)
+        public void WriteHex(Hex hex)
         {
             try
             {
@@ -213,7 +166,7 @@ namespace RS232DLL
                 {
                     sp.Open();
                 }
-                byte[] bytes = Hex2Bytes(hex);
+                byte[] bytes = RS232Utils.Hex2Bytes(hex.hexstring);
                 sp.Write(bytes, 0, bytes.Length);
             }
             catch
@@ -238,10 +191,6 @@ namespace RS232DLL
                 throw;
             }
         }
-        /// <summary>
-        /// 关闭IO
-        /// </summary>
-        /// <param name="sp"></param>
         public void Close()
         {
             try
@@ -260,86 +209,9 @@ namespace RS232DLL
                 throw;
             }
         }
-        public void Dispose()
-        {
-            this.Close();
-            sp.Dispose();
-        }
-        private byte[] Hex2Bytes(string hex)
-        {
-            try
-            {
-                if (string.IsNullOrEmpty(hex))
-                {
-                    return new byte[0];
-                }
-                string[] str = hex.Split(' ');
-                var re = new byte[str.Length];
-                var result = new byte[re.Length];
-                int i = 0;
-                foreach (var s in str)
-                {
-                    var tempBytes = Byte.Parse(s.Remove(0, 2), System.Globalization.NumberStyles.HexNumber);
-                    re[i] = tempBytes;
-                    result[i] = tempBytes;
-                    i++;
-                }
-                return result;
-            }
-            catch
-            {
-                throw;
-            }
 
-        }
-        public byte CheckSum(byte[] bytes)
-        {
-            try
-            {
-                byte chksum = 0;
-                for (int i = 0; i < bytes.Length; i++)
-                {
-                    chksum += bytes[i];
-                }
-                chksum = (byte)(~chksum + 1);
-                return chksum;
-            }
-            catch
-            {
-                throw;
-            }          
-        }
-        public string NowTime2Str()
-        {
-            try
-            {
-                string str = "";
-                string TimeNum = DateTime.Now.ToLocalTime().ToString("yy/MM/dd/HH/mm/ss");
-                string[] TimeSplit = TimeNum.Split('/');
-                foreach (var s in TimeSplit)
-                {
-                    str += "0x" + s + " ";
-                }
-                string WeekNum = DateTime.Now.DayOfWeek.ToString();
-                switch (WeekNum)
-                {
-                    case "Sunday": WeekNum = "0x00"; break;
-                    case "Monday": WeekNum = "0x01"; break;
-                    case "Tuesday": WeekNum = "0x02"; break;
-                    case "Wednesday": WeekNum = "0x03"; break;
-                    case "Thursday": WeekNum = "0x04"; break;
-                    case "Friday": WeekNum = "0x05"; break;
-                    case "Saturday": WeekNum = "0x06"; break;
-                }
-                str += WeekNum;
-                return str;
-            }
-            catch
-            {
-                throw;
-            }
-         
-        }
+
+
 
 
 

@@ -42,16 +42,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="RS232.Interface\IRS232.cs" />
-    <Compile Include="RS232.Interface\ISPInstance.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RS232.Infra\RS232Factory.cs" />
-    <Compile Include="RS232.Instance\SPInstance.cs" />
-    <Compile Include="RS232.Instance\SPInstanceBase.cs" />
-    <Compile Include="RS232.Infra\SPMeans.cs" />
+    <Compile Include="RS232.Infra\Hex.cs" />
+    <Compile Include="RS232.Infra\RS232Utils.cs" />
     <Compile Include="RS232.Infra\WHSerialPort.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="RS232.Interface\IAccessoryData.cs" />
+    <Compile Include="RS232.Interface\IRS232.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RS232.Infra\RS232Factory.cs" />
+    <Compile Include="RS232.Instance\SPInstanceBase.cs" />
+    <Compile Include="RS232.Infra\RS232Methods.cs" />
+    <Compile Include="RS232.Infra\PortConfig.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
