@@ -1,6 +1,7 @@
 # RS232DLL
 
-## How to Use
+## < Version 1.1.0
+### How to Use
 
 1. New Instance
 ```
@@ -33,7 +34,7 @@
   });
 ```
 
-## How to Customize your own methods
+### How to Customize your own methods
 
 You can override those methods.
 ```
@@ -65,4 +66,28 @@ Below is a case.
             catch { throw; }
         }
     }
+```
+
+##  Version 1.1.0
+
+```
+  SPInstances<SerialPort> SPIs = new SPInstances<SerialPort>()
+  {
+      new SPInstance<SerialPort>(new SerialPort("COM1"),delegate(string str){Console.WriteLine("COM1READER:"+str); }),
+      new SPInstance<SerialPort>(new SerialPort("COM2"),delegate(string str){Console.WriteLine("COM2READER:"+str); }),
+      new SPInstance<SerialPort>(new SerialPort("COM3"),delegate(string str){Console.WriteLine("COM3READER:"+str); }),
+      new SPInstance<SerialPort>(new SerialPort("COM4"),delegate(string str){Console.WriteLine("COM4READER:"+str); }),
+  };
+  for(int i = 0; i < 10; i++)
+  {
+      SPIs[0].Write("this is com1");
+      Thread.Sleep(500);
+      SPIs[1].Write("this is com2");
+      Thread.Sleep(500);
+      SPIs[2].Write("this is com3");
+      Thread.Sleep(500);
+      SPIs[3].Write("this is com4");
+      Thread.Sleep(500);
+  }
+  Console.Read();
 ```
