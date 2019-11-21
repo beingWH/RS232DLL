@@ -150,93 +150,12 @@ Result:
 
 ### Customize your own Class
 
+pair of SerialPort:COM1&COM2
+
 ```
  public class MySpInstance : SPInstanceBase
     {
-        public MySpInstance(string PortName, object accessoryData = null) : base(PortName, accessoryData)
-        {
-        }
-
-        public MySpInstance(string PortName, Action<byte[], object> WHreader) : base(PortName, WHreader)
-        {
-        }
-
-        public MySpInstance(string PortName, Action<string, object> WHreader) : base(PortName, WHreader)
-        {
-        }
-
-        public MySpInstance(string PortName, Action<Hex, object> WHreader) : base(PortName, WHreader)
-        {
-        }
-
-        public MySpInstance(string PortName, object accessoryData, Action<byte[], object> WHreader) : base(PortName, accessoryData, WHreader)
-        {
-        }
-
-        public MySpInstance(string PortName, object accessoryData, Action<string, object> WHreader) : base(PortName, accessoryData, WHreader)
-        {
-        }
-
-        public MySpInstance(string PortName, object accessoryData, Action<Hex, object> WHreader) : base(PortName, accessoryData, WHreader)
-        {
-        }
-
-        public MySpInstance(string PortName, object accessoryData, PortConfig pc, Action<byte[], object> WHreader) : base(PortName, accessoryData, pc, WHreader)
-        {
-        }
-
-        public MySpInstance(string PortName, object accessoryData, PortConfig pc, Action<string, object> WHreader) : base(PortName, accessoryData, pc, WHreader)
-        {
-        }
-
-        public MySpInstance(string PortName, object accessoryData, PortConfig pc, Action<Hex, object> WHreader) : base(PortName, accessoryData, pc, WHreader)
-        {
-        }
-
-        public override void BytesReaderDispose(Action<byte[], object> reader)
-        {
-            base.BytesReaderDispose(reader);
-        }
-
-        public override void BytesReaderInitialize(Action<byte[], object> reader)
-        {
-            base.BytesReaderInitialize(reader);
-        }
-
-        public override void Dispose()
-        {
-            base.Dispose();
-        }
-
-        public override void HexReaderDispose(Action<Hex, object> reader)
-        {
-            base.HexReaderDispose(reader);
-        }
-
-        public override void HexReaderInitialize(Action<Hex, object> reader)
-        {
-            base.HexReaderInitialize(reader);
-        }
-
-        public override void StrReaderDispose(Action<string, object> reader)
-        {
-            base.StrReaderDispose(reader);
-        }
-
-        public override void StrReaderInitialize(Action<string, object> reader)
-        {
-            base.StrReaderInitialize(reader);
-        }
-
-        public override void WriteHex(Hex hex)
-        {
-            base.WriteHex(hex);
-        }
-
-        public override void WriteStr(string str)
-        {
-            base.WriteStr(str);
-        }
+    // override virtual methods
     }
 ```
 u can use your serialport class,like this
