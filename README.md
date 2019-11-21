@@ -27,6 +27,8 @@ COM1&Com2 is the pair of SerialPort.
 
 Result:
 
+![](RS232DLL/IMG/1.PNG)
+
 ### SerialPort Group
 
 pair of SerialPort:COM1&COM2,COM3&COM4
@@ -54,6 +56,8 @@ pair of SerialPort:COM1&COM2,COM3&COM4
   Console.Read();
 ```
 Result:
+
+![](RS232DLL/IMG/2.PNG)
 
 ### Customize your own Class
 
@@ -87,3 +91,5 @@ u can use your serialport class,like this
     }
 ```
 Result:
+
+![](RS232DLL/IMG/3.PNG)
