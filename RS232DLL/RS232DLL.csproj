@@ -60,5 +60,10 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="IMG\1.PNG" />
+    <Content Include="IMG\2.PNG" />
+    <Content Include="IMG\3.PNG" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
