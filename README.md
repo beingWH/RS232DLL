@@ -1,5 +1,5 @@
 # RS232DLL
-##  Version 2.0.0
+##  Version 2.0
 ### Quick to Start
 
 COM1&Com2 is the pair of SerialPort. 
