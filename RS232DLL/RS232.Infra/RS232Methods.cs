@@ -44,6 +44,8 @@ namespace RS232DLL.Infra
         {
             try
             {
+                if (sp.IsOpen)
+                    sp.Close();
                 sp.DtrEnable = true;
                 sp.RtsEnable = true;
                 sp.Handshake = Handshake.None;
@@ -54,7 +56,8 @@ namespace RS232DLL.Infra
                 sp.DataBits = 8;
                 sp.StopBits = StopBits.One;
                 sp.Parity = Parity.None;
-                sp.Close();
+                if (!sp.IsOpen)
+                    sp.Open();
             }
             catch
             {
@@ -65,6 +68,8 @@ namespace RS232DLL.Infra
         {
             try
             {
+                if (sp.IsOpen)
+                    sp.Close();
                 sp.DtrEnable = pc.DrtEnable;
                 sp.RtsEnable = pc.RtsEnable;
                 sp.Handshake =pc.Handshake;
@@ -75,7 +80,8 @@ namespace RS232DLL.Infra
                 sp.DataBits = pc.DataBits;
                 sp.StopBits = pc.StopBits;
                 sp.Parity = pc.Parity;
-                sp.Close();
+                if (!sp.IsOpen)
+                    sp.Open();
             }
             catch
             {
@@ -93,7 +99,7 @@ namespace RS232DLL.Infra
             {
                 if (sp.IsOpen)
                 {
-                    Thread.Sleep(500);
+                    //Thread.Sleep(100);
                     WHStrReader?.Invoke(sp.ReadExisting(), sp.accessoryData);
                     sp.DiscardInBuffer();
                     
@@ -119,7 +125,7 @@ namespace RS232DLL.Infra
             {
                 if (sp.IsOpen)
                 {
-                    Thread.Sleep(100);
+                    //Thread.Sleep(100);
                     int n = sp.BytesToRead;
                     byte[] buf = new byte[n];
                     sp.Read(buf, 0, n);
@@ -143,7 +149,7 @@ namespace RS232DLL.Infra
             {
                 if (sp.IsOpen)
                 {
-                    Thread.Sleep(1000);
+                    //Thread.Sleep(100);
                     int n = sp.BytesToRead;
                     byte[] buf = new byte[n];
                     sp.Read(buf, 0, n);

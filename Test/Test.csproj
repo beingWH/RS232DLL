@@ -45,8 +45,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\RS232DLL\RS232DLL.csproj">
-      <Project>{2FE124E8-CF76-490A-96C3-47AF5C8B318B}</Project>
+      <Project>{2fe124e8-cf76-490a-96c3-47af5c8b318b}</Project>
       <Name>RS232DLL</Name>
     </ProjectReference>
   </ItemGroup>
